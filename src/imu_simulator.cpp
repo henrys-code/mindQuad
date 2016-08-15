@@ -1,8 +1,24 @@
 #include <ros/ros.h>
 #include <visualization_msgs/Marker.h>
 #include <vector>
+#include <geometry_msgs/Vector3.h>
 
 using namespace ros;
+geometry_msgs::Vector3 current_position;
+geometry_msgs::Vector3 angular_velocity;
+
+
+void callback_imu(const geometry_msgs::Pose::ConstPtr& msg)
+{
+  ROS_INFO("I heard, Pose Position1: (%f, %f, %f)", msg->position.x, msg->position.y, msg->position.z);
+  current_position.x = msg->position.x;
+  current_position.y = msg->position.y;
+  current_position.z = msg->position.z;
+  ROS_INFO("I heard, Pose Orientation1: (%f, %f, %f, %f)", msg->orientation.x, msg->orientation.y, msg->orientation.z, msg->orientation.w);
+  angular_velocity.x = msg->orientation.x;
+  angular_velocity.y = msg->orientation.y;
+  angular_velocity.z = msg->orientation.z;
+}
 
 int main (int argc, char **argv)
 {
@@ -10,7 +26,7 @@ int main (int argc, char **argv)
     NodeHandle n;
     Rate r(4);
     Publisher imu_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
-
+	Subscriber subscriber_imu = n.subscribe("topic_imu", 1000, callback_imu);	
     int i, j;
     uint32_t shape = visualization_msgs::Marker::ARROW;
     std::vector< std::vector<int> > move_list(10, std::vector<int>(3,0));
@@ -70,6 +86,15 @@ int main (int argc, char **argv)
             sleep(1);
         }
         imu_pub.publish(marker);
+
+        marker.pose.position.x = current_position.x;
+        marker.pose.position.y = current_position.y;
+        marker.pose.position.z = current_position.z;
+		imu_pub.publish(marker);
+		spinOnce();
+		ROS_INFO("I heard, Pose Position9: (%f, %f, %f)", current_position.x, current_position.y, current_position.z);
+        r.sleep();		
+/*
         for (i=0; i<move_list.size(); i++)
         {
             marker.pose.position.x += move_list[i][0];
@@ -78,7 +103,7 @@ int main (int argc, char **argv)
             imu_pub.publish(marker);
             r.sleep();
         }
-
+*/
 
     }
 }

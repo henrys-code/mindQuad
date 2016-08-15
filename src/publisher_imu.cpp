@@ -40,6 +40,24 @@ int main(int argc, char **argv)
   geometry_msgs::Quaternion quat;
   geometry_msgs::Vector3 accel;
   geometry_msgs::Vector3 angular_velocity;
+  
+  point.x = 0.0f;
+  point.y = 0.0f;
+  point.z = 0.0f;
+
+  quat.x = 0.0f;
+  quat.y = 1.0f;
+  quat.z = 0.0f;
+  quat.w = 0.0f;
+
+  accel.x = 0.0f;
+  accel.y = 0.0f;
+  accel.z = 0.0f;
+
+  angular_velocity.x = 0.0f;
+  angular_velocity.y = 0.0f;
+  angular_velocity.z = 0.0f;
+
   /**
    * A count of how many messages we have sent. This is used to create
    * a unique string for each message.
@@ -50,32 +68,17 @@ int main(int argc, char **argv)
     /**
      * This is a message object. You stuff it with data, and then publish it.
      */
-    point.x = 0.0f;
-    point.y = 0.0f;
-    point.z = 0.0f;
+    point.z += 0.1f;
 
-    quat.x = 0.0f;
-    quat.y = 1.0f;
-    quat.z = 0.0f;
-    quat.w = 0.0f;
-
-    accel.x = 0.0f;
-    accel.y = 0.0f;
-    accel.z = 0.0f;
-
-    angular_velocity.x = 0.0f;
-    angular_velocity.y = 0.0f;
-    angular_velocity.z = 0.0f;
+	if (point.z > 3.0f){
+		point.z = 0.0f;	
+	}
 
     pose.position = point;
     pose.orientation = quat;
 
-    /*std::stringstream ss;
-    ss << "hello world " << count;
-    */
-
     ROS_INFO("Pose Postion: (%f, %f, %f)", pose.position.x, pose.position.y, pose.position.z);
-    ROS_INFO("Pose Orientation: (%f, %f, %f, %f)", pose.orientation.x, pose.orientation.y, pose.orientation.z, pose.orientation.w);
+    //ROS_INFO("Pose Orientation: (%f, %f, %f, %f)", pose.orientation.x, pose.orientation.y, pose.orientation.z, pose.orientation.w);
 
     /**
      * The publish() function is how you send messages. The parameter
