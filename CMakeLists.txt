@@ -128,6 +128,7 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 ## Declare a C++ executable
 add_executable(pub_imu_node src/publisher_imu.cpp)
 add_executable(sub_imu_node src/subscriber_imu.cpp)
+add_executable(sub_test_node src/subscriber_test.cpp)
 add_executable(imu_simulator src/imu_simulator.cpp)
 add_executable(robot src/robot.cpp)
 
@@ -141,6 +142,7 @@ add_dependencies(sub_imu_node my_imu_generate_messages_cpp)
 ## Specify libraries to link a library or executable target against
 target_link_libraries(pub_imu_node ${catkin_LIBRARIES})
 target_link_libraries(sub_imu_node ${catkin_LIBRARIES})
+target_link_libraries(sub_test_node ${catkin_LIBRARIES})
 target_link_libraries(imu_simulator ${catkin_LIBRARIES})
 target_link_libraries(robot ${catkin_LIBRARIES})
 
