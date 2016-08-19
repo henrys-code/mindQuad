@@ -1,11 +1,7 @@
 #include "ros/ros.h"
 #include "geometry_msgs/Pose.h"
-
 #include <sstream>
 
-/**
- * This tutorial demonstrates simple receipt of messages over the ROS system.
- */
 void chatterCallback(const geometry_msgs::Pose::ConstPtr& msg)
 {
   ROS_INFO("I heard, Pose Position: (%f, %f, %f)", msg->position.x, msg->position.y, msg->position.z);
