@@ -54,7 +54,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate services in the 'srv' folder
 # add_service_files(
 #   FILES
-   #Imu_service.srv
+#   Imu_service.srv
 # )
 
 ## Generate actions in the 'action' folder
@@ -131,7 +131,6 @@ add_executable(sub_imu_node src/subscriber_imu.cpp)
 add_executable(sub_test_node src/subscriber_test.cpp)
 add_executable(imu_simulator src/imu_simulator.cpp)
 add_executable(robot src/robot.cpp)
-add_executable(service src/parameter_test.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -146,7 +145,6 @@ target_link_libraries(sub_imu_node ${catkin_LIBRARIES})
 target_link_libraries(sub_test_node ${catkin_LIBRARIES})
 target_link_libraries(imu_simulator ${catkin_LIBRARIES})
 target_link_libraries(robot ${catkin_LIBRARIES})
-target_link_libraries(service_test ${catkin_LIBRARIES})
 
 #############
 ## Install ##

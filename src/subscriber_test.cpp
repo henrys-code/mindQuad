@@ -1,9 +1,8 @@
 #include "ros/ros.h"
-#include "geometry_msgs/Pose.h"
-#include <rosserial_arduino/Adc.h>
+#include <std_msgs/Int16.h>
 #include <sstream>
 
-void chatterCallback(const rosserial_arduino::Adc::ConstPtr& msg)
+void chatterCallback(const std_msgs::Int16::ConstPtr& msg)
 {
     ROS_INFO("Message 'o' received with data: %d", msg->data);
 }
