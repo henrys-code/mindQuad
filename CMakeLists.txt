@@ -46,10 +46,10 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
- add_message_files(
-   FILES
-   Imu.msg
- )
+# add_message_files(
+#   FILES
+#   Imu.msg
+# )
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -65,11 +65,11 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
- generate_messages(
-   DEPENDENCIES
-   std_msgs  # Or other packages containing msgs
-   geometry_msgs
- )
+# generate_messages(
+#   DEPENDENCIES
+#   std_msgs  # Or other packages containing msgs
+#   geometry_msgs
+# )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -126,9 +126,9 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 # add_dependencies(my_imu ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(pub_imu_node src/publisher_imu.cpp)
-add_executable(sub_imu_node src/subscriber_imu.cpp)
-add_executable(sub_test_node src/subscriber_test.cpp)
+add_executable(imu_publisher src/imu_publisher.cpp)
+add_executable(imu_subscriber src/imu_subscriber.cpp)
+add_executable(subscriber_test src/subscriber_test.cpp)
 add_executable(imu_simulator src/imu_simulator.cpp)
 add_executable(robot src/robot.cpp)
 
@@ -136,13 +136,13 @@ add_executable(robot src/robot.cpp)
 ## same as for the library above
 #add_dependencies(imu_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 #add_dependencies(sub_imu_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(pub_imu_node my_imu_generate_messages_cpp)
-add_dependencies(sub_imu_node my_imu_generate_messages_cpp)
+add_dependencies(imu_publisher my_imu_generate_messages_cpp)
+add_dependencies(imu_subscriber my_imu_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(pub_imu_node ${catkin_LIBRARIES})
-target_link_libraries(sub_imu_node ${catkin_LIBRARIES})
-target_link_libraries(sub_test_node ${catkin_LIBRARIES})
+target_link_libraries(imu_publisher ${catkin_LIBRARIES})
+target_link_libraries(imu_subscriber ${catkin_LIBRARIES})
+target_link_libraries(subscriber_test ${catkin_LIBRARIES})
 target_link_libraries(imu_simulator ${catkin_LIBRARIES})
 target_link_libraries(robot ${catkin_LIBRARIES})
 

@@ -1,15 +1,17 @@
-#include "ros/ros.h"
-#include <std_msgs/Int16.h>
-#include <sstream>
+#include <ros/ros.h>
+#include <std_msgs/String.h>
 
-void chatterCallback(const std_msgs::Int16::ConstPtr& msg)
+
+void chatterCallback(const std_msgs::String::ConstPtr& msg)
 {
-    ROS_INFO("Message 'o' received with data: %d", msg->data);
+    unsigned short ax;
+    unsigned char *chars = reinterpret_cast<unsigned char *>(msg->data);
+    
 }
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "listener");
+  ros::init(argc, argv, "subscriber_test");
   ros::NodeHandle n;
   ros::Subscriber subscriber_imu = n.subscribe("o", 1000, chatterCallback);
   ros::spin();
