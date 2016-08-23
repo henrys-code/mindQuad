@@ -7,7 +7,7 @@ from geometry_msgs.msg import Twist
 
 class Arduino():
     def __init__(self):
-        rospy.init_node('Arduino')
+        rospy.init_node('arduino')
         self.imu_publisher = rospy.Publisher(
             "/imu_data",
             Twist,
@@ -34,6 +34,8 @@ class Arduino():
             
             self.imu_publisher.publish(self.twist)
             rospy.sleep(1)
+
+            print temp
 
 if __name__ == '__main__':
     Arduino()
