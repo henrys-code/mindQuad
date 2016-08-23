@@ -1,0 +1,5 @@
+<launch>
+   <node name="arduino" pkg="mind_quad" type="arduino.py" />
+   <node name="robot" pkg="mind_quad" type="robot" />
+   <node name="imu_simulator" pkg="mind_quad" type="imu_simulator" />
+</launch>
