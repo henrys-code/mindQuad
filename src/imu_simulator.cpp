@@ -18,7 +18,7 @@ int main (int argc, char **argv)
     init(argc, argv, "imu");
     NodeHandle n;
     Rate r(10);
-    Subscriber imu_sub = n.Subscribe("/imu_data", 1000, imu_handler)
+    Subscriber imu_sub = n.subscribe("/imu_data", 1000, imu_handler);
     Publisher imu_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
 
     int i, j;
