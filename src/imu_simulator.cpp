@@ -1,17 +1,24 @@
 #include <ros/ros.h>
 #include <math.h>
 #include <visualization_msgs/Marker.h>
+#include <geometry_msgs/Twist.h>
 #include <vector>
 
 #define _USE_MATH_DEFINES
 
 using namespace ros;
 
+void imu_handler(const geometry_msgs::Twist::ConstPtr& imu_data)
+{
+
+}
+
 int main (int argc, char **argv)
 {
     init(argc, argv, "imu");
     NodeHandle n;
     Rate r(10);
+    Subscriber imu_sub = n.Subscribe("/imu_data", 1000, imu_handler)
     Publisher imu_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
 
     int i, j;
@@ -26,7 +33,7 @@ int main (int argc, char **argv)
         visualization_msgs::Marker marker;
         marker.header.frame_id = "/imu_frame";
         marker.header.stamp = Time::now();
-        marker.ns = "imu";
+        marker.ns = "imu_namespace";
         marker.id = 0;
         marker.type = shape;
         marker.action = visualization_msgs::Marker::ADD;

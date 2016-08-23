@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>my_imu</name>
+  <name>mind_quad</name>
   <version>0.0.1</version>
   <description>The my_imu package</description>
   <maintainer email="tree@todo.todo">tree</maintainer>

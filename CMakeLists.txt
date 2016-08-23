@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(my_imu)
+project(mind_quad)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -7,9 +7,6 @@ project(my_imu)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
-  std_msgs
-  message_generation
-  geometry_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -126,9 +123,6 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 # add_dependencies(my_imu ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(imu_publisher src/imu_publisher.cpp)
-add_executable(imu_subscriber src/imu_subscriber.cpp)
-add_executable(subscriber_test src/subscriber_test.cpp)
 add_executable(imu_simulator src/imu_simulator.cpp)
 add_executable(robot src/robot.cpp)
 
@@ -136,13 +130,8 @@ add_executable(robot src/robot.cpp)
 ## same as for the library above
 #add_dependencies(imu_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 #add_dependencies(sub_imu_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(imu_publisher my_imu_generate_messages_cpp)
-add_dependencies(imu_subscriber my_imu_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(imu_publisher ${catkin_LIBRARIES})
-target_link_libraries(imu_subscriber ${catkin_LIBRARIES})
-target_link_libraries(subscriber_test ${catkin_LIBRARIES})
 target_link_libraries(imu_simulator ${catkin_LIBRARIES})
 target_link_libraries(robot ${catkin_LIBRARIES})
 
