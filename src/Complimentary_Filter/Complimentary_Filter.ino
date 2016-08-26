@@ -18,6 +18,12 @@ significant bit) at this FS setting, so the raw reading of
 #include <LSM6.h>
 
 #define M_PI 3.14159265359
+
+typedef union {
+  float floatingPoint;
+  byte binary[4];
+} binaryFloat;
+
 LSM6 imu;
 short Linear_Accel_Full_Scale = 2;
 short Angular_Rate_Full_Scale = 245;
@@ -41,29 +47,48 @@ void setup()
 
 void loop()
 {
-  dt = millis() - dt;
+  dt = (millis() - dt)/1000.0;
   imu.read();
-  short accelData[3] = {imu.a.x, imu.a.y, imu.a.z};
-  short gyroData[3] = {imu.g.x, imu.g.y, imu.g.z};
+  unsigned short accelData[3] = {imu.a.x, imu.a.y, imu.a.z};
+  unsigned short gyroData[3] = {imu.g.x, imu.g.y, imu.g.z};
 
-  ComplementaryFilter(accelData, gyroData, &pitch, &roll, &dt);
+  //ComplementaryFilter(accelData, gyroData, pitch, roll, dt);
+
+  binaryFloat b_ax, b_ay, b_az, b_gx, b_gy, b_gz;
+
+  b_ax.floatingPoint = (imu.a.x*Linear_Accel_Sensitivity);
+  b_ay.floatingPoint = (imu.a.y*Linear_Accel_Sensitivity);
+  b_az.floatingPoint = (imu.a.z*Linear_Accel_Sensitivity);
+
+  b_gx.floatingPoint = ((imu.g.x/Angular_Rate_Sensitivity)*dt);
+  b_gy.floatingPoint = ((imu.g.y/Angular_Rate_Sensitivity)*dt);
+  b_gz.floatingPoint = ((imu.g.z/Angular_Rate_Sensitivity)*dt);
   
-  delay(100);
+  
+  //Serial.write(b_pitch.binary, 4);
+  //Serial.write(b_roll.binary, 4);  
+  Serial.write(b_ax.binary, 4);
+  Serial.write(b_ay.binary, 4);
+  Serial.write(b_az.binary, 4);
+  Serial.write(b_gx.binary, 4);
+  Serial.write(b_gy.binary, 4);
+  Serial.write(b_gz.binary, 4);
+  delay(1000);
 }
 
-void ComplementaryFilter(short accelData[3], short gyroData[3], float* pitch, float* roll, float *dt){
+void ComplementaryFilter(unsigned short accelData[3], unsigned short gyroData[3], float& pitch, float& roll, float& dt){
   float pitchAccel, rollAccel;
 
-  *pitch += ((float)gyroData[0] / Angular_Rate_Sensitivity) * *dt; // X Angle
-  *roll -= ((float)gyroData[1] / Angular_Rate_Sensitivity) * *dt; // Y Angle
+  pitch += ((float)gyroData[0] / Angular_Rate_Sensitivity) * dt; // X Angle
+  roll -= ((float)gyroData[1] / Angular_Rate_Sensitivity) * dt; // Y Angle
 
   int forceMagnitudeApprox = abs(accelData[0] + accelData[1] + accelData[2]);
   if (forceMagnitudeApprox > 8192 && forceMagnitudeApprox < 32768){
     pitchAccel = atan2((float)accelData[1], (float)accelData[2]) * 180 / M_PI;
-    *pitch = *pitch * 0.98 + pitchAccel * 0.02;
+    pitch = pitch * 0.98 + pitchAccel * 0.02;
     
     rollAccel = atan2((float)accelData[0], (float)accelData[2]) * 180 / M_PI;
-    *roll = *roll * 0.98 + rollAccel * 0.02;
+    roll = roll * 0.98 + rollAccel * 0.02;
   }
 }
 
@@ -100,19 +125,19 @@ float getAngularRateSensitivity(short fullScaleValue){
   float rate = 0.0;
   switch(fullScaleValue){
     case 125:
-      rate = 0.004375;
+      rate = 4.375;
     break;
     case 245:
-      rate = 0.00875;
+      rate = 8.75;
     break;
     case 500:
-      rate = 0.01750;
+      rate = 17.50;
     break;
     case 1000:
-      rate = 0.035;
+      rate = 35;
     break;
     case 2000:
-      rate = 0.070;
+      rate = 70;
     break;
   }
   return rate;

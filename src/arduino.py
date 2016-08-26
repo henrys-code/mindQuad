@@ -25,12 +25,14 @@ class Arduino():
         #Loop until the shutdown signal is sent (Ctrl + c)
         while not rospy.is_shutdown():
             #Unpack each byte into the temp array
-            temp[0] = unpack('<B', ser.read())[0]
-            temp[1] = unpack('<B', ser.read())[0]
-            temp[2] = unpack('<B', ser.read())[0]
-            temp[3] = unpack('<B', ser.read())[0]
-            temp[4] = unpack('<B', ser.read())[0]
-            temp[5] = unpack('<B', ser.read())[0]
+            temp[0] = unpack('<f', ser.read(4))[0]
+            temp[1] = unpack('<f', ser.read(4))[0]
+            temp[2] = unpack('<f', ser.read(4))[0]
+            temp[3] = unpack('<f', ser.read(4))[0]
+            temp[4] = unpack('<f', ser.read(4))[0]
+            temp[5] = unpack('<f', ser.read(4))[0]
+            #temp[6] = unpack('<f', ser.read(4))[0]
+            #temp[7] = unpack('<B', ser.read())[0]
             #Set the Message properties from the temp array
             self.twist.linear.x = temp[0]
             self.twist.linear.y = temp[1]
