@@ -60,19 +60,19 @@ void loop()
   b_ay.floatingPoint = (imu.a.y*Linear_Accel_Sensitivity);
   b_az.floatingPoint = (imu.a.z*Linear_Accel_Sensitivity);
 
-  b_gx.floatingPoint = ((imu.g.x/Angular_Rate_Sensitivity)*dt);
-  b_gy.floatingPoint = ((imu.g.y/Angular_Rate_Sensitivity)*dt);
-  b_gz.floatingPoint = ((imu.g.z/Angular_Rate_Sensitivity)*dt);
-  
+  b_gx.floatingPoint = (imu.g.x*Angular_Rate_Sensitivity);
+  b_gy.floatingPoint = (imu.g.y*Angular_Rate_Sensitivity);
+  b_gz.floatingPoint = (imu.g.z*Angular_Rate_Sensitivity);  
   
   //Serial.write(b_pitch.binary, 4);
   //Serial.write(b_roll.binary, 4);  
+  Serial.write("S");
   Serial.write(b_ax.binary, 4);
   Serial.write(b_ay.binary, 4);
   Serial.write(b_az.binary, 4);
   Serial.write(b_gx.binary, 4);
   Serial.write(b_gy.binary, 4);
-  Serial.write(b_gz.binary, 4);
+  Serial.write(b_gz.binary, 4); 
   delay(1000);
 }
 
@@ -125,19 +125,19 @@ float getAngularRateSensitivity(short fullScaleValue){
   float rate = 0.0;
   switch(fullScaleValue){
     case 125:
-      rate = 4.375;
+      rate = 0.004375;
     break;
     case 245:
-      rate = 8.75;
+      rate = 0.00875;
     break;
     case 500:
-      rate = 17.50;
+      rate = 0.01750;
     break;
     case 1000:
-      rate = 35;
+      rate = 0.035;
     break;
     case 2000:
-      rate = 70;
+      rate = 0.070;
     break;
   }
   return rate;
