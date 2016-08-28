@@ -21,13 +21,15 @@ class Arduino():
         #Initialize array of 6 0's
         temp = [0]*6
         sums = [0]*6
+        offsets = [0]*6;
         #Connect to the Arduino at the port with the given baud rate
         ser = serial.Serial('/dev/ttyUSB0', 9600)
         counter = 0
         #Loop until the shutdown signal is sent (Ctrl + c)
         while not rospy.is_shutdown():
+            handshake = unpack('c', ser.read(1))[0]
             #Read the data from the wire, if the first byte is the start byte
-            if (unpack('c', ser.read(1))[0]) == 'S':
+            if handshake == 'S':
                 counter += 1
                 #Unpack each byte into the temp array
                 temp[0] = unpack('<f', ser.read(4))[0]
