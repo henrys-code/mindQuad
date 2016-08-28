@@ -20,12 +20,15 @@ class Arduino():
         self.twist = Twist()        
         #Initialize array of 6 0's
         temp = [0]*6
+        sums = [0]*6
         #Connect to the Arduino at the port with the given baud rate
         ser = serial.Serial('/dev/ttyUSB0', 9600)
+        counter = 0
         #Loop until the shutdown signal is sent (Ctrl + c)
         while not rospy.is_shutdown():
             #Read the data from the wire, if the first byte is the start byte
             if (unpack('c', ser.read(1))[0]) == 'S':
+                counter += 1
                 #Unpack each byte into the temp array
                 temp[0] = unpack('<f', ser.read(4))[0]
                 temp[1] = unpack('<f', ser.read(4))[0]
@@ -33,6 +36,12 @@ class Arduino():
                 temp[3] = unpack('<f', ser.read(4))[0]
                 temp[4] = unpack('<f', ser.read(4))[0]
                 temp[5] = unpack('<f', ser.read(4))[0]
+                #sums[0] += temp[0]
+                #sums[1] += temp[1]
+                #sums[2] += temp[2]
+                #sums[3] += temp[3]
+                #sums[4] += temp[4]
+                #sums[5] += temp[5]
                 #Set the Message properties from the temp array
                 self.twist.linear.x = temp[0]
                 self.twist.linear.y = temp[1]
